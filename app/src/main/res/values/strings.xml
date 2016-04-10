@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">A310HW1</string>
     <string name="action_settings">Settings</string>
+    <string name="search_hint">Search hint here...</string>
+    <string name="title_activity_searchable">SearchableActivity</string>
+
 </resources>
