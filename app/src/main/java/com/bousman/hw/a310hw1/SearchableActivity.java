@@ -37,6 +37,7 @@ public class SearchableActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.d("SearchableActivity","query="+query);
 
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);

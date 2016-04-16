@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        createTestDb();
     }
 
     @Override
@@ -67,5 +70,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void createTestDb()
+    {
+        Log.d("main","start creating DB");
+        // create database first time only
+        DbHelper db = DbHelper.getInstance(this);
+        db.deleteRecords();
+        db.addRecord("Alabama");
+        db.addRecord("Alaska");
+        db.addRecord("California");
+        db.addRecord("Georgia");
+        db.addRecord("Hawaii");
+        db.addRecord("Michigan");
+        db.addRecord("Mississippi");
+
+        Log.d("main", "end creating DB");
     }
 }
