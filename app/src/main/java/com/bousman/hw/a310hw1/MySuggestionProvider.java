@@ -21,12 +21,12 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
     public final static String AUTHORITY = "com.bousman.hw.a310hw1.MySuggestionProvider";
     public final static int MODE = DATABASE_MODE_QUERIES;
 
-    public static final String URL = "content://" + AUTHORITY + "/financial";
+    public static final String URL = "content://" + AUTHORITY + "/state";
     public static final Uri CONTENT_URI = Uri.parse(URL);
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-    private static final int FINANCIAL = 1;
-    private static final int FINANCIAL_ID = 2;
+    private static final int US_STATE = 1;
+    private static final int US_STATE_ID = 2;
 
     private DbHelper db;
 
@@ -49,10 +49,10 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
         int match = sUriMatcher.match(uri);
         Log.d("getType matches", "int="+match);
         switch (match) {
-            case FINANCIAL:
-                return "vnd.android.cursor.dir/financial";
-            case FINANCIAL_ID:
-                return "vnd.android.cursor.item/financial";
+            case US_STATE:
+                return "vnd.android.cursor.dir/state";
+            case US_STATE_ID:
+                return "vnd.android.cursor.item/state";
             default:
                 return null;
         }
@@ -62,6 +62,7 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        Log.d("insert",values.toString());
         long rowId = db.addRecord(values);
         if (rowId > 0) {
             Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowId);
@@ -78,11 +79,11 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
         int count = 0;
         int match = sUriMatcher.match(uri);
         switch (match) {
-            case FINANCIAL:
+            case US_STATE:
                 count = db.deleteRecords(selection,selectionArgs);
                 break;
 
-            case FINANCIAL_ID:
+            case US_STATE_ID:
                 String sid = uri.getPathSegments().get(1);
                 long id = Integer.getInteger(sid);
                 count = db.deleteRecord(id);
@@ -102,21 +103,22 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
                         String[] selectionArgs, String sortOrder) {
 
         String queryText = uri.getLastPathSegment().toLowerCase();
-        Log.d("Provider","uri="+uri);
-        Log.d("Provider","query="+queryText);
-        Log.d("Provider", "selection=" + selection);
-        Log.d("Provider","args="+ Arrays.toString(selectionArgs));
+        Log.d("Provider", "uri=" + uri);
+        //Log.d("Provider","projection="+Arrays.toString(projection));
+        Log.d("Provider", "query=" + queryText);
+        //Log.d("Provider", "selection=" + selection);
+        // Log.d("Provider","args="+ Arrays.toString(selectionArgs));
 
 
 /*
         switch (sUriMatcher.match(uri)) {
             // If the incoming URI was for all of table
-            case FINANCIAL:
+            case US_STATE:
                 if (TextUtils.isEmpty(sortOrder)) sortOrder = "_ID ASC";
                 break;
 
             // If the incoming URI was for a single row
-            case FINANCIAL_ID:
+            case US_STATE_ID:
                 selection = selection + "_ID = " + uri.getLastPathSegment();
                 break;
 
@@ -126,6 +128,19 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
         }
     */
         // call the code to actually do the query
+        Cursor testCursor = db.getCursor(projection, selection, selectionArgs, sortOrder);
+        int counter = 0;
+        if (testCursor.moveToFirst())
+            ++counter;
+        try {
+            while (testCursor.moveToNext()) {
+                ++counter;
+            }
+        } finally {
+            testCursor.close();
+        }
+        Log.d("Provider query", "cursor count: "+counter);
+
         return db.getCursor(projection,selection,selectionArgs,sortOrder);
     }
 
@@ -136,11 +151,11 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
         int count = 0;
         int match = sUriMatcher.match(uri);
         switch (match) {
-            case FINANCIAL:
+            case US_STATE:
                 count = db.updateRecord(values, selection, selectionArgs);
                 break;
 
-            case FINANCIAL_ID:
+            case US_STATE_ID:
                 String sid = uri.getPathSegments().get(1);
                 long id = Integer.getInteger(sid);
                 count = db.updateRecord(id, values, selection, selectionArgs);

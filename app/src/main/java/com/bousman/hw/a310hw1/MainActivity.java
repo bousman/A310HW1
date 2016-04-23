@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -78,15 +80,46 @@ public class MainActivity extends AppCompatActivity {
         Log.d("main","start creating DB");
         // create database first time only
         DbHelper db = DbHelper.getInstance(this);
-        db.deleteRecords();
-        db.addRecord("Alabama");
-        db.addRecord("Alaska");
-        db.addRecord("California");
-        db.addRecord("Georgia");
-        db.addRecord("Hawaii");
-        db.addRecord("Michigan");
-        db.addRecord("Mississippi");
+        ArrayList<DBTask> recs = db.getRecordList();
+        if (recs.size() < 10) {
+            Log.d("main","adding states to database");
+            db.deleteRecords();
+            db.addRecord("Alabama");
+            db.addRecord("Alaska");
+            db.addRecord("Arizona");
+            db.addRecord("Arkansas");
+            db.addRecord("California");
+            db.addRecord("Colorado");
+            db.addRecord("Connecticut");
+            db.addRecord("Delaware");
+            db.addRecord("Florida");
+            db.addRecord("Georgia");
+            db.addRecord("Hawaii");
+            db.addRecord("Idaho");
+            db.addRecord("Illinois");
+            db.addRecord("Indiana");
+            db.addRecord("Iowa");
+            db.addRecord("Kansas");
+            db.addRecord("Kentucky");
+            db.addRecord("Louisiana");
+            db.addRecord("Maine");
+            db.addRecord("Maryland");
+            db.addRecord("Massachusetts");
+            db.addRecord("Michigan");
+            db.addRecord("Minnesota");
+            db.addRecord("Mississippi");
+            db.addRecord("Missouri");
+            db.addRecord("Montana");
 
-        Log.d("main", "end creating DB");
+            Log.d("main", "end creating DB");
+        }
+
+        recs = db.getRecordList();
+        for ( DBTask r : recs )
+        {
+            Log.d("main", r.toString() );
+        }
+
+
     }
 }

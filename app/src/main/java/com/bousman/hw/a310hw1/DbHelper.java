@@ -6,19 +6,21 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final String DB_NAME = "a310hw1.db";
-    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "a310hw1b.db";
+    private static final int DB_VERSION = 3;
     private static DbHelper myDb = null;
     private SQLiteDatabase db;
     public static final String DB_SESSION_TABLE = "searches";
     private static final String CreateSessionTable = "create table "
             + DB_SESSION_TABLE
-            + "(_ID integer primary key autoincrement, Description text); ";
+            + "(_id integer primary key autoincrement, state text); ";
 
 
     private DbHelper(Context context){
@@ -58,11 +60,11 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public long addRecord(String description)
+    public long addRecord(String state)
     {
         ContentValues values = new ContentValues();
 
-        values.put("Description", description);
+        values.put("state", state);
 
         // returns the row ID
         return db.insert(DB_SESSION_TABLE, null, values);
@@ -85,9 +87,9 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             while (true)
             {
-                String description = cursor.getString(cursor.getColumnIndex("Description"));
-                int id = cursor.getInt(cursor.getColumnIndex("_ID"));
-                DBTask task = new DBTask( description );
+                String state = cursor.getString(cursor.getColumnIndex("state"));
+                int id = cursor.getInt(cursor.getColumnIndex("_id"));
+                DBTask task = new DBTask( state );
                 task.setId( id );
 
                 recordList.add(task);
@@ -115,20 +117,20 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    public int updateRecord(long id, String description)
+    public int updateRecord(long id, String state)
     {
         ContentValues values = new ContentValues();
 
-        values.put("Description", description);
+        values.put("state", state);
 
         //db.update(DB_SESSION_TABLE, values, "_ID=" + id, null);
-        return updateRecord(id,values,"_ID="+id,null);
+        return updateRecord(id,values,"_id="+id,null);
     }
 
 
     public int updateRecord(long id, ContentValues values, String selection, String[] selectionArgs)
     {
-        String sel = "_ID=" + id + selection;
+        String sel = "_id=" + id + selection;
         return db.update(DB_SESSION_TABLE, values, sel, selectionArgs);
     }
 
@@ -141,7 +143,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public int deleteRecord(long id)
     {
-        return db.delete(DB_SESSION_TABLE, "_ID=" + id, null);
+        return db.delete(DB_SESSION_TABLE, "_id=" + id, null);
     }
 
 
@@ -160,6 +162,11 @@ public class DbHelper extends SQLiteOpenHelper {
     public Cursor getCursor(String[] projection, String selection,
                             String[] selectionArgs, String sortOrder)
     {
+        Log.d("DbHelper","projection="+ Arrays.toString(projection));
+        Log.d("DbHelper", "selection=" + selection);
+        Log.d("DbHelper","selectionArgs="+ Arrays.toString(selectionArgs));
+        Log.d("DbHelper", "sortOrder=" + sortOrder);
+
         Cursor cursor = db.query(DB_SESSION_TABLE,projection,selection,selectionArgs,null,null,sortOrder);
         return cursor;
     }

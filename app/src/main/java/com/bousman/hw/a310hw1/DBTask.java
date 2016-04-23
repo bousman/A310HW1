@@ -3,11 +3,11 @@ package com.bousman.hw.a310hw1;
 
 public class DBTask {
     private long id;
-    private String searchString;
+    private String state;
 
 
     public DBTask(String searchString){
-        this.searchString = searchString;
+        this.state = searchString;
     }
 
     public long getId(){
@@ -17,16 +17,16 @@ public class DBTask {
         this.id = id;
     }
 
-    public String getsearchString(){
-        return searchString;
+    public String getState(){
+        return state;
     }
-    public void setsearchString(String searchString){
-        this.searchString = searchString;
+    public void setState(String state){
+        this.state = state;
     }
 
 
     @Override
     public String toString() {
-        return id + "," + searchString;
+        return id + "," + state;
     }
 }

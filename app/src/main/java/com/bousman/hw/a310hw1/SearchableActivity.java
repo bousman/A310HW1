@@ -39,9 +39,9 @@ public class SearchableActivity extends AppCompatActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Log.d("SearchableActivity","query="+query);
 
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-                    MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
-            suggestions.saveRecentQuery(query, null);
+            //SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+            //        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+            //suggestions.saveRecentQuery(query, null);
 
             //suggestions.clearHistory();
 
