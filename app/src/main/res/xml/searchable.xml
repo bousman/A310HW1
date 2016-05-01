@@ -5,6 +5,6 @@
             android:label="@string/app_name"
 
             android:searchSuggestAuthority="com.bousman.hw.a310hw1.MySuggestionProvider"
-            android:searchSuggestSelection=" ?"
+            android:searchSuggestSelection="SUGGEST_COLUMN_TEXT_1 LIKE ?"
     >
 </searchable>

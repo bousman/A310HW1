@@ -104,44 +104,34 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
 
         String queryText = uri.getLastPathSegment().toLowerCase();
         Log.d("Provider", "uri=" + uri);
-        //Log.d("Provider","projection="+Arrays.toString(projection));
+        Log.d("Provider","projection="+Arrays.toString(projection));
         Log.d("Provider", "query=" + queryText);
-        //Log.d("Provider", "selection=" + selection);
-        // Log.d("Provider","args="+ Arrays.toString(selectionArgs));
+        Log.d("Provider", "selection=" + selection);
+        Log.d("Provider","selectionArgs="+ Arrays.toString(selectionArgs));
 
+        String[] proj = new String[] {"_id", "SUGGEST_COLUMN_TEXT_1"};
+        String[] whereArgs = new String[] {"%"+selectionArgs[0]+"%"};
 
-/*
-        switch (sUriMatcher.match(uri)) {
-            // If the incoming URI was for all of table
-            case US_STATE:
-                if (TextUtils.isEmpty(sortOrder)) sortOrder = "_ID ASC";
-                break;
-
-            // If the incoming URI was for a single row
-            case US_STATE_ID:
-                selection = selection + "_ID = " + uri.getLastPathSegment();
-                break;
-
-            default:
-                throw new IllegalArgumentException("Unknown URI " + uri );
-                break;
-        }
-    */
         // call the code to actually do the query
-        Cursor testCursor = db.getCursor(projection, selection, selectionArgs, sortOrder);
+        Cursor testCursor = db.getCursor(proj, selection, whereArgs, sortOrder);
+        Log.d("query","back with cursor");
         int counter = 0;
-        if (testCursor.moveToFirst())
-            ++counter;
         try {
-            while (testCursor.moveToNext()) {
+            testCursor.moveToFirst();
+            while (!testCursor.isAfterLast()) {
                 ++counter;
+                int id = testCursor.getInt(0);
+                String state = testCursor.getString(1);
+                Log.d("result","ID="+id + " state="+state);
+                testCursor.moveToNext();
             }
         } finally {
-            testCursor.close();
+            //testCursor.close();
         }
         Log.d("Provider query", "cursor count: "+counter);
 
-        return db.getCursor(projection,selection,selectionArgs,sortOrder);
+        //return db.getCursor(proj,selection,whereArgs,sortOrder);
+        return testCursor;
     }
 
 

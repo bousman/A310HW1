@@ -14,13 +14,13 @@ import java.util.Arrays;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "a310hw1b.db";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 6;
     private static DbHelper myDb = null;
     private SQLiteDatabase db;
     public static final String DB_SESSION_TABLE = "searches";
     private static final String CreateSessionTable = "create table "
             + DB_SESSION_TABLE
-            + "(_id integer primary key autoincrement, state text); ";
+            + "(_id integer primary key autoincrement, SUGGEST_COLUMN_TEXT_1 text); ";
 
 
     private DbHelper(Context context){
@@ -64,7 +64,7 @@ public class DbHelper extends SQLiteOpenHelper {
     {
         ContentValues values = new ContentValues();
 
-        values.put("state", state);
+        values.put("SUGGEST_COLUMN_TEXT_1", state);
 
         // returns the row ID
         return db.insert(DB_SESSION_TABLE, null, values);
@@ -87,7 +87,7 @@ public class DbHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             while (true)
             {
-                String state = cursor.getString(cursor.getColumnIndex("state"));
+                String state = cursor.getString(cursor.getColumnIndex("SUGGEST_COLUMN_TEXT_1"));
                 int id = cursor.getInt(cursor.getColumnIndex("_id"));
                 DBTask task = new DBTask( state );
                 task.setId( id );
@@ -121,9 +121,9 @@ public class DbHelper extends SQLiteOpenHelper {
     {
         ContentValues values = new ContentValues();
 
-        values.put("state", state);
+        values.put("SUGGEST_COLUMN_TEXT_1", state);
 
-        //db.update(DB_SESSION_TABLE, values, "_ID=" + id, null);
+        //db.update(DB_SESSION_TABLE, values, "_id=" + id, null);
         return updateRecord(id,values,"_id="+id,null);
     }
 
@@ -167,7 +167,13 @@ public class DbHelper extends SQLiteOpenHelper {
         Log.d("DbHelper","selectionArgs="+ Arrays.toString(selectionArgs));
         Log.d("DbHelper", "sortOrder=" + sortOrder);
 
+        //Cursor cursor = db.query(DB_SESSION_TABLE,projection,selection,selectionArgs,null,null,sortOrder);
+
+        Log.d("getCursor","about to make db query");
+        //String[] whereArgs = new String[] {"Alaska"};
+        //Cursor cursor = db.rawQuery("SELECT * FROM " + DB_SESSION_TABLE + " WHERE state = ?", whereArgs);
         Cursor cursor = db.query(DB_SESSION_TABLE,projection,selection,selectionArgs,null,null,sortOrder);
+        Log.d("getCursor","done with db query");
         return cursor;
     }
 }
