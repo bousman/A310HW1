@@ -103,35 +103,19 @@ public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
                         String[] selectionArgs, String sortOrder) {
 
         String queryText = uri.getLastPathSegment().toLowerCase();
-        Log.d("Provider", "uri=" + uri);
-        Log.d("Provider","projection="+Arrays.toString(projection));
-        Log.d("Provider", "query=" + queryText);
-        Log.d("Provider", "selection=" + selection);
-        Log.d("Provider","selectionArgs="+ Arrays.toString(selectionArgs));
+        //Log.d("Provider", "uri=" + uri);
+        //Log.d("Provider","projection="+Arrays.toString(projection));
+        //Log.d("Provider", "query=" + queryText);
+        //Log.d("Provider", "selection=" + selection);
+        //Log.d("Provider","selectionArgs="+ Arrays.toString(selectionArgs));
 
-        String[] proj = new String[] {"_id", "SUGGEST_COLUMN_TEXT_1"};
+        String[] proj = new String[] {"_id", SearchManager.SUGGEST_COLUMN_TEXT_1};
         String[] whereArgs = new String[] {"%"+selectionArgs[0]+"%"};
 
         // call the code to actually do the query
-        Cursor testCursor = db.getCursor(proj, selection, whereArgs, sortOrder);
-        Log.d("query","back with cursor");
-        int counter = 0;
-        try {
-            testCursor.moveToFirst();
-            while (!testCursor.isAfterLast()) {
-                ++counter;
-                int id = testCursor.getInt(0);
-                String state = testCursor.getString(1);
-                Log.d("result","ID="+id + " state="+state);
-                testCursor.moveToNext();
-            }
-        } finally {
-            //testCursor.close();
-        }
-        Log.d("Provider query", "cursor count: "+counter);
-
+        //Cursor cursor = db.getCursor(proj, selection, whereArgs, sortOrder);
         //return db.getCursor(proj,selection,whereArgs,sortOrder);
-        return testCursor;
+        return db.getCursor(proj, selection, whereArgs, sortOrder);
     }
 
 

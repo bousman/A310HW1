@@ -33,17 +33,11 @@ public class SearchableActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Get the intent, verify the action and get the query
-        Log.d("SearchableActivity","getting intent");
+        //Log.d("SearchableActivity","getting intent");
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             Log.d("SearchableActivity","query="+query);
-
-            //SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-            //        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
-            //suggestions.saveRecentQuery(query, null);
-
-            //suggestions.clearHistory();
 
             //doMySearch(query);
             Log.d("SearchableActivity","Query:["+query+"]" );

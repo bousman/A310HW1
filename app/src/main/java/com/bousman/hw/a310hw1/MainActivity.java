@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         // create database first time only
         DbHelper db = DbHelper.getInstance(this);
         ArrayList<DBTask> recs = db.getRecordList();
-        if (recs.size() < 10) {
+        if (recs.size() < 48) {
             Log.d("main","adding states to database");
             db.deleteRecords();
             db.addRecord("Alabama");
@@ -110,6 +110,30 @@ public class MainActivity extends AppCompatActivity {
             db.addRecord("Mississippi");
             db.addRecord("Missouri");
             db.addRecord("Montana");
+            db.addRecord("Nebraska");
+            db.addRecord("Nevada");
+            db.addRecord("New Hampshire");
+            db.addRecord("New Jersery");
+            db.addRecord("New Mexico");
+            db.addRecord("New York");
+            db.addRecord("North Carolina");
+            db.addRecord("North Dakota");
+            db.addRecord("Ohio");
+            db.addRecord("Oklahoma");
+            db.addRecord("Oregon");
+            db.addRecord("Pennsylvania");
+            db.addRecord("Rhode Island");
+            db.addRecord("South Carolina");
+            db.addRecord("South Dakota");
+            db.addRecord("Tennessee");
+            db.addRecord("Texas");
+            db.addRecord("Utah");
+            db.addRecord("Vermont");
+            db.addRecord("Virginia");
+            db.addRecord("Washington");
+            db.addRecord("West Virginia");
+            db.addRecord("Wisconsin");
+            db.addRecord("Wyoming");
 
             Log.d("main", "end creating DB");
         }
